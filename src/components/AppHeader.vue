@@ -1,13 +1,13 @@
 <template>
   <header>
     <h1 class="site_title">
-      <routerLink to="/">~ Pizza Planet ~</routerLink>
+      <routerLink :to="{ name: 'home' }">~ Pizza Planet ~</routerLink>
     </h1>
     <nav>
-      <RouterLink class="link" to="/">Home</RouterLink>
-      <RouterLink class="menu" to="/menu">Menu</RouterLink>
-      <RouterLink class="About" to="/about">About</RouterLink>
-      <RouterLink class="Admin" to="/admin">Admin</RouterLink>
+      <RouterLink class="link" :to="{ name: 'home' }">Home</RouterLink>
+      <RouterLink class="menu" :to="{ name: 'menuLink' }">Menu</RouterLink>
+      <RouterLink class="About" :to="{ name: 'aboutLink' }">About</RouterLink>
+      <RouterLink class="Admin" :to="{ name: 'adminLink' }">Admin</RouterLink>
     </nav>
     <h2>The #1 Place For Pizza</h2>
   </header>
