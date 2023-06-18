@@ -1,12 +1,30 @@
 <script setup>
 import { ref } from 'vue'
 const basket = ref([])
+const allPizzas = ref([
+  {
+    name: 'Margarita',
+    description: 'A delicious tomato pizza topped with mozzarella',
+    options: [
+      { size: 9, price: 6.95 }, // 0
+      { size: 12, price: 12.95 } //1
+    ]
+  },
+  {
+    name: 'Pepperoni',
+    description: 'A delicious tomato pizza topped with mozzarella and pepperoni',
+    options: [
+      { size: 9, price: 5.45 }, // 0
+      { size: 12, price: 14.85 } //1
+    ]
+  }
+])
 
-function addToBasket() {
+function addToBasket(item, option) {
   basket.value.push({
-    name: 'linssi',
-    price: 12.99,
-    size: 12,
+    name: item.name,
+    price: option.price,
+    size: option.size,
     quantity: 1
   })
 }
@@ -17,22 +35,22 @@ function addToBasket() {
     <div class="menu">
       <h3>~ Authentic handmade pizza ~</h3>
       <table>
-        <tbody>
+        <tbody v-for="(pizza, index) in allPizzas" :key="index">
           <tr>
             <td>
-              <strong>~ Marghreita ~</strong>
+              <strong>~ {{ pizza.name }} ~</strong>
             </td>
           </tr>
           <tr>
             <td>
-              <small>A delicious tomato-based pizza topped with mozzarella </small>
+              <small> {{ pizza.description }} </small>
             </td>
           </tr>
-          <tr>
-            <td>9"</td>
-            <td>$9.75</td>
+          <tr v-for="(option, index) in pizza.options" :key="option[index]">
+            <td>{{ option.size }}</td>
+            <td>{{ option.price }}</td>
             <td>
-              <button type="button" @click="addToBasket">&#43;</button>
+              <button type="button" @click="addToBasket(pizza, option)">&#43;</button>
             </td>
           </tr>
         </tbody>
@@ -49,7 +67,7 @@ function addToBasket() {
                 <span>{{ item.quantity }}</span>
                 <button class="quantity_btn" type="button">&#43;</button>
               </td>
-              <td>{{ item.name }} {{ item.size }}/td></td>
+              <td>{{ item.name }} {{ item.size }}</td>
               <td>{{ item.price * item.quantity }}</td>
             </tr>
           </tbody>
