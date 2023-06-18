@@ -6,7 +6,7 @@
         <tbody>
           <tr>
             <td>
-              <strong>~ Margarita ~</strong>
+              <strong>~ Marghreita ~</strong>
             </td>
           </tr>
           <tr>
@@ -26,6 +26,21 @@
     </div>
     <div class="basket">
       <h3>~ Basket ~</h3>
+      <div>
+        <table>
+          <tr>
+            <td>
+              <button class="quantity_btn" type="button">&#8722;</button>
+              <span>1</span>
+              <button class="quantity_btn" type="button">&#43;</button>
+            </td>
+            <td>Margherita 9"</td>
+            <td>$7.95</td>
+          </tr>
+        </table>
+        <p>Order Total: $87</p>
+        <button>Place order</button>
+      </div>
     </div>
   </div>
 </template>
