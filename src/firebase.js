@@ -19,5 +19,5 @@ const app = initializeApp(firebaseConfig)
 
 const db = getFirestore(app)
 
-export const dbPizzaRef = collection(db, 'pizzas')
+export const dbPizzasRef = collection(db, 'pizzas')
 export const dbOrdersRef = collection(db, 'orders')
