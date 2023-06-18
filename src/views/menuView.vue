@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 const basket = ref([])
 const allPizzas = ref([
   {
@@ -50,6 +50,14 @@ function decreaseQuantity(item) {
 function removeFromBasket(item) {
   basket.value.splice(basket.value.indexOf(item), 1)
 }
+
+const total = computed(function () {
+  let totalCost = 0
+  basket.value.forEach(function (item) {
+    totalCost += item.quantity * item.price
+  })
+  return totalCost
+})
 </script>
 
 <template>
@@ -98,7 +106,7 @@ function removeFromBasket(item) {
             </tr>
           </tbody>
         </table>
-        <p>Order Total: $87</p>
+        <p>Order Total: ${{ total }}</p>
         <button>Place order</button>
       </div>
     </div>
