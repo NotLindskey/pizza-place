@@ -1,3 +1,17 @@
+<script setup>
+import { ref } from 'vue'
+const basket = ref([])
+
+function addToBasket() {
+  basket.value.push({
+    name: 'linssi',
+    price: 12.99,
+    size: 12,
+    quantity: 1
+  })
+}
+</script>
+
 <template>
   <div class="menu_wrapper">
     <div class="menu">
@@ -18,7 +32,7 @@
             <td>9"</td>
             <td>$9.75</td>
             <td>
-              <button type="button">&#43;</button>
+              <button type="button" @click="addToBasket">&#43;</button>
             </td>
           </tr>
         </tbody>
@@ -28,15 +42,17 @@
       <h3>~ Basket ~</h3>
       <div>
         <table>
-          <tr>
-            <td>
-              <button class="quantity_btn" type="button">&#8722;</button>
-              <span>1</span>
-              <button class="quantity_btn" type="button">&#43;</button>
-            </td>
-            <td>Margherita 9"</td>
-            <td>$7.95</td>
-          </tr>
+          <tbody v-for="(item, index) in basket" :key="index">
+            <tr>
+              <td>
+                <button class="quantity_btn" type="button">&#8722;</button>
+                <span>{{ item.quantity }}</span>
+                <button class="quantity_btn" type="button">&#43;</button>
+              </td>
+              <td>{{ item.name }} {{ item.size }}/td></td>
+              <td>{{ item.price * item.quantity }}</td>
+            </tr>
+          </tbody>
         </table>
         <p>Order Total: $87</p>
         <button>Place order</button>
