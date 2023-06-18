@@ -5,7 +5,7 @@
     </h1>
     <nav>
       <RouterLink class="link" :to="{ name: 'home' }">Home</RouterLink>
-      <RouterLink class="menu" :to="{ name: 'menuLink' }">Menu</RouterLink>
+      <RouterLink class="Menu" :to="{ name: 'menuLink' }">Menu</RouterLink>
       <RouterLink class="About" :to="{ name: 'aboutLink' }">About</RouterLink>
       <RouterLink class="Admin" :to="{ name: 'adminLink' }">Admin</RouterLink>
     </nav>
