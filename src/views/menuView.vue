@@ -35,6 +35,21 @@ function addToBasket(item, option) {
     quantity: 1
   })
 }
+
+function increaseQuantity(item) {
+  item.quantity++
+}
+
+function decreaseQuantity(item) {
+  item.quantity--
+  if (item.quantity === 0) {
+    removeFromBasket(item)
+  }
+}
+
+function removeFromBasket(item) {
+  basket.value.splice(basket.value.indexOf(item), 1)
+}
 </script>
 
 <template>
@@ -70,9 +85,13 @@ function addToBasket(item, option) {
           <tbody v-for="(item, index) in basket" :key="index">
             <tr>
               <td>
-                <button class="quantity_btn" type="button">&#8722;</button>
+                <button @click="decreaseQuantity(item)" class="quantity_btn" type="button">
+                  &#8722;
+                </button>
                 <span>{{ item.quantity }}</span>
-                <button class="quantity_btn" type="button">&#43;</button>
+                <button @click="increaseQuantity(item)" class="quantity_btn" type="button">
+                  &#43;
+                </button>
               </td>
               <td>{{ item.name }} {{ item.size }}</td>
               <td>{{ item.price * item.quantity }}</td>
