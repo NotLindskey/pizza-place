@@ -21,6 +21,13 @@ const allPizzas = ref([
 ])
 
 function addToBasket(item, option) {
+  const pizzaExists = basket.value.find(function (pizza) {
+    return pizza.name === item.name && pizza.size === option.size
+  })
+  if (pizzaExists) {
+    pizzaExists.quantity++
+    return
+  }
   basket.value.push({
     name: item.name,
     price: option.price,
@@ -101,6 +108,7 @@ h3 {
 .quantity_btn {
   border: none;
   padding: 0.4rem;
+  background: none;
 }
 
 @media (min-width: 900px) {
