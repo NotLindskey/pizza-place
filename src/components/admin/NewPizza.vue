@@ -1,5 +1,10 @@
 <script setup>
 import { ref } from 'vue'
+import { addDoc } from 'firebase/firestore'
+import { dbPizzasRef } from '../../firebase'
+
+const message = ref('')
+
 const newPizza = ref({
   name: 'Eg. Margarita',
   description: 'Eg. A delicious tomato pizza topped with mozzarella',
@@ -8,6 +13,15 @@ const newPizza = ref({
     { size: 12, price: 12.95 } //1
   ]
 })
+
+async function add() {
+  try {
+    await addDoc(dbPizzasRef, newPizza.value)
+    message.value = `Pizza ${newPizza.value.name} has been added!`
+  } catch (e) {
+    message.value = 'There was an error adding the pizza...'
+  }
+}
 </script>
 
 <template>
@@ -49,8 +63,15 @@ const newPizza = ref({
         <input type="text" id="price2" v-model="newPizza.options[1].size" />
       </div>
       <div class="form_group">
-        <button>Add</button>
+        <button @click.prevent="add">Add</button>
+        <span class="message"> {{ message }}</span>
       </div>
     </form>
   </section>
 </template>
+
+<style>
+.message {
+  margin-left: 1rem;
+}
+</style>
