@@ -1,16 +1,17 @@
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, onUnmounted } from 'vue'
 import { query, orderBy, doc, deleteDoc, onSnapshot } from 'firebase/firestore'
 import { dbOrdersRef } from '../firebase'
 
 export default function useOrders() {
   const allOrders = ref([])
   const message = ref('')
+  const unsubscribeFromOrders = ref()
 
   async function getOrders() {
     try {
       const queryData = query(dbOrdersRef, orderBy('createdAt'))
 
-      onSnapshot(queryData, function (docs) {
+      const unsubscribe = onSnapshot(queryData, function (docs) {
         allOrders.value = []
         docs.forEach(function (doc) {
           const order = {
@@ -20,12 +21,17 @@ export default function useOrders() {
           allOrders.value.push(order)
         })
       })
+      unsubscribeFromOrders.value = unsubscribe
     } catch (error) {
       message.value = 'there was an error with getting orders'
     }
   }
 
   onMounted(getOrders)
+  onUnmounted(function () {
+    console.log('unmounted')
+    unsubscribeFromOrders.value()
+  })
 
   async function deleteOrder(id) {
     try {

@@ -6,6 +6,8 @@ import {
   onAuthStateChanged
 } from 'firebase/auth'
 import { ref } from 'vue'
+import { doc, setDoc } from 'firebase/firestore'
+import { db } from '../firebase'
 export default function useAuth() {
   const auth = getAuth()
   const errorMessage = ref('')
@@ -18,8 +20,16 @@ export default function useAuth() {
 
   async function signUp(email, password) {
     try {
-      await createUserWithEmailAndPassword(auth, email, password)
+      const { user } = await createUserWithEmailAndPassword(auth, email, password)
+      const userObject = {
+        createdAt: new Date(),
+        email: user.email,
+        isAdmin: false
+      }
+      const newDoc = doc(db, 'users', user.uid)
+      await setDoc(newDoc, userObject)
       errorMessage.value = ''
+      signInModalOpen.value = false
     } catch (error) {
       switch (error.code) {
         case 'auth/email-already-in-use':
