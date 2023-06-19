@@ -16,7 +16,6 @@ const {
 </script>
 
 <template>
-  {{ darkMode }}
   <div class="menu_wrapper">
     <div class="menu">
       <h3>~ Authentic handmade pizza ~</h3>
