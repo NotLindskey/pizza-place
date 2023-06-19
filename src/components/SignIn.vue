@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import useAuth from '@/composables/useAuth'
-const { signUp, errorMessage, toggleModal, signInModalOpen } = useAuth()
+const { signUp, errorMessage, toggleModal, signInModalOpen, logIn, logOut } = useAuth()
 const userData = ref({
   email: '',
   password: ''
@@ -10,6 +10,7 @@ const userData = ref({
 
 <template>
   <button @click="toggleModal" class="sign_in_btn">Sign in</button>
+  <button @click="logOut" class="sign_in_btn">Sign out</button>
   <div v-if="signInModalOpen" class="modal">
     <div class="modal_content">
       <span @click="toggleModal" class="close_modal">&#10060;</span>
@@ -29,7 +30,9 @@ const userData = ref({
             v-model="userData.password"
           />
         </div>
-        <button type="button">Sign in</button>
+        <button @click.prevent="logIn(userData.email, userData.password)" type="button">
+          Sign in
+        </button>
         <button @click.prevent="signUp(userData.email, userData.password)" type="button">
           Sign up
         </button>

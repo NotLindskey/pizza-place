@@ -1,4 +1,9 @@
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut
+} from 'firebase/auth'
 import { ref } from 'vue'
 export default function useAuth() {
   const auth = getAuth()
@@ -26,5 +31,34 @@ export default function useAuth() {
       }
     }
   }
-  return { signUp, errorMessage, signInModalOpen, toggleModal }
+
+  async function logIn(email, password) {
+    if (!email) return (errorMessage.value = 'Please enter a valid email')
+    if (!password) return (errorMessage.value = 'Please enter a valid password')
+    try {
+      const user = await signInWithEmailAndPassword(auth, email, password)
+      errorMessage.value = ''
+      signInModalOpen.value = false
+    } catch (error) {
+      switch (error.code) {
+        case 'auth/wrong-password':
+          errorMessage.value = 'Incorrect password'
+          break
+        case 'auth/user-not-found':
+          errorMessage.value = 'No user found with that email'
+          break
+        default:
+          errorMessage.value = 'Sorry, there was an unexpected error'
+      }
+    }
+  }
+
+  function logOut() {
+    try {
+      signOut(auth)
+    } catch (error) {
+      errorMessage.value = error.message
+    }
+  }
+  return { signUp, errorMessage, signInModalOpen, toggleModal, logIn, logOut }
 }
