@@ -1,9 +1,10 @@
 import { onMounted, ref } from 'vue'
-import { query, orderBy, getDocs } from 'firebase/firestore'
+import { query, orderBy, getDocs, doc, deleteDoc } from 'firebase/firestore'
 import { dbOrdersRef } from '../firebase'
 
 export default function useOrders() {
   const allOrders = ref([])
+  const message = ref('')
 
   async function getOrders() {
     try {
@@ -21,5 +22,16 @@ export default function useOrders() {
 
   onMounted(getOrders)
 
-  return { allOrders }
+  async function deleteOrder(id) {
+    try {
+      message.value = ''
+      const order = doc(dbOrdersRef, id)
+      await deleteDoc(order)
+      getOrders()
+    } catch (error) {
+      message.value = 'There was an error deleting the order, please try again'
+    }
+  }
+
+  return { allOrders, deleteOrder, message }
 }

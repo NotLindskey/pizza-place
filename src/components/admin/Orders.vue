@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
 import useOrders from '../../composables/useOrders'
-const { allOrders } = useOrders()
+const { allOrders, deleteOrder, message } = useOrders()
 </script>
 
 <template>
@@ -9,6 +9,7 @@ const { allOrders } = useOrders()
     <header class="admin_section_header">
       <h3>Current orders ({{ allOrders.length }})</h3>
     </header>
+    <p v-if="message" class="error">{{ message }}</p>
     <table>
       <tr>
         <th>Item</th>
@@ -20,7 +21,7 @@ const { allOrders } = useOrders()
         <tr>
           <td>
             <strong>Order number: {{ order.id }}</strong>
-            <button class="btn_remove" type="button">&times;</button>
+            <button @click="deleteOrder(order.id)" class="btn_remove" type="button">&times;</button>
           </td>
         </tr>
         <tr v-for="orderItem in order.pizzas" :key="orderItem.Name + orderItem.size">
