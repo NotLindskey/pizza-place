@@ -3,7 +3,8 @@ import useBasket from '@/composables/useBasket'
 import usePizzas from '../composables/usePizzas'
 
 const { allPizzas } = usePizzas()
-const { basket, increaseQuantity, decreaseQuantity, addToBasket, total } = useBasket()
+const { basketText, addNewOrder, basket, increaseQuantity, decreaseQuantity, addToBasket, total } =
+  useBasket()
 </script>
 
 <template>
@@ -34,7 +35,7 @@ const { basket, increaseQuantity, decreaseQuantity, addToBasket, total } = useBa
     </div>
     <div class="basket">
       <h3>~ Basket ~</h3>
-      <div>
+      <div v-if="basket.length > 0">
         <table>
           <tbody v-for="(item, index) in basket" :key="index">
             <tr>
@@ -53,7 +54,10 @@ const { basket, increaseQuantity, decreaseQuantity, addToBasket, total } = useBa
           </tbody>
         </table>
         <p>Order Total: ${{ total }}</p>
-        <button>Place order</button>
+        <button @click="addNewOrder">Place order</button>
+      </div>
+      <div v-else>
+        <p>{{ basketText }}</p>
       </div>
     </div>
   </div>
