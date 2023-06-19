@@ -17,7 +17,9 @@ export default function useOrders() {
         }
         allOrders.value.push(order)
       })
-    } catch (error) {}
+    } catch (error) {
+      message.value = 'there was an error with getting orders'
+    }
   }
 
   onMounted(getOrders)
