@@ -16,6 +16,7 @@ const {
 </script>
 
 <template>
+  {{ darkMode }}
   <div class="menu_wrapper">
     <div class="menu">
       <h3>~ Authentic handmade pizza ~</h3>
@@ -33,7 +34,7 @@ const {
           </tr>
           <tr v-for="option in pizza.options" :key="pizza.id + option.size">
             <td>{{ option.size }}</td>
-            <td>{{ option.price }}</td>
+            <td>{{ filters.formatMoney(option.price) }}</td>
             <td>
               <button type="button" @click="addToBasket(pizza, option)">&#43;</button>
             </td>
@@ -57,11 +58,11 @@ const {
                 </button>
               </td>
               <td>{{ item.name }} {{ item.size }}</td>
-              <td>{{ item.price * item.quantity }}</td>
+              <td>{{ filters.formatMoney(item.price * item.quantity) }}</td>
             </tr>
           </tbody>
         </table>
-        <p>Order Total: ${{ total }}</p>
+        <p>Order Total: {{ filters.formatMoney(total) }}</p>
         <p>{{ signInMessage }}</p>
         <button @click="addNewOrder">Place order</button>
       </div>
