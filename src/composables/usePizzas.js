@@ -1,5 +1,5 @@
 import { ref, onMounted } from 'vue'
-import { getDocs, deleteDoc, doc } from 'firebase/firestore'
+import { getDocs, deleteDoc, doc, onSnapshot } from 'firebase/firestore'
 import { dbPizzasRef } from '../firebase'
 
 export default function usePizzas() {
@@ -8,15 +8,17 @@ export default function usePizzas() {
   async function getPizzas() {
     try {
       message.value = ''
-      allPizzas.value = []
-      const docs = await getDocs(dbPizzasRef)
-      docs.forEach(function (doc) {
-        const pizza = {
-          id: doc.id,
-          ...doc.data()
-        }
-        allPizzas.value.push(pizza)
+      onSnapshot(dbPizzasRef, function (docs) {
+        allPizzas.value = []
+        docs.forEach(function (doc) {
+          const pizza = {
+            id: doc.id,
+            ...doc.data()
+          }
+          allPizzas.value.push(pizza)
+        })
       })
+      // const docs = await getDocs(dbPizzasRef)
     } catch (error) {
       message.value = 'There was an error fetching pizzas, please reload the page'
     }
@@ -28,7 +30,6 @@ export default function usePizzas() {
       message.value = ''
       const pizza = doc(dbPizzasRef, id)
       await deleteDoc(pizza)
-      getPizzas()
     } catch (error) {
       message.value = 'There was an error deleting the pizza, please try again'
     }
