@@ -1,16 +1,21 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
+import { ref } from 'vue'
 import useOrders from '../../composables/useOrders'
 const { allOrders, deleteOrder, message } = useOrders()
+const showOrders = ref(true)
 </script>
 
 <template>
   <section class="admin_section">
     <header class="admin_section_header">
       <h3>Current orders ({{ allOrders.length }})</h3>
+      <small class="toggleBtn" @click="showOrders = !showOrders">{{
+        showOrders ? 'hide' : 'show'
+      }}</small>
     </header>
     <p v-if="message" class="error">{{ message }}</p>
-    <table>
+    <table v-show="showOrders">
       <tr>
         <th>Item</th>
         <th>Size</th>

@@ -4,6 +4,7 @@ import { addDoc } from 'firebase/firestore'
 import { dbPizzasRef } from '../../firebase'
 
 const message = ref('')
+const showNewPizza = ref(true)
 
 const newPizza = ref({
   name: 'Eg. Margarita',
@@ -29,8 +30,11 @@ async function add() {
   <section class="admin_section">
     <header class="admin_section_header">
       <h3>Add new pizza</h3>
+      <small class="toggleBtn" @click="showNewPizza = !showNewPizza">{{
+        showNewPizza ? 'hide' : 'show'
+      }}</small>
     </header>
-    <form>
+    <form v-show="showNewPizza">
       <div class="form_group">
         <label for="name">Name</label>
         <input type="text" id="name" v-model="newPizza.name" />
