@@ -1,5 +1,5 @@
 import { onMounted, ref } from 'vue'
-import { query, orderBy, getDocs, doc, deleteDoc } from 'firebase/firestore'
+import { query, orderBy, doc, deleteDoc, onSnapshot } from 'firebase/firestore'
 import { dbOrdersRef } from '../firebase'
 
 export default function useOrders() {
@@ -9,13 +9,16 @@ export default function useOrders() {
   async function getOrders() {
     try {
       const queryData = query(dbOrdersRef, orderBy('createdAt'))
-      const docs = await getDocs(queryData)
-      docs.forEach(function (doc) {
-        const order = {
-          id: doc.id,
-          ...doc.data()
-        }
-        allOrders.value.push(order)
+
+      onSnapshot(queryData, function (docs) {
+        allOrders.value = []
+        docs.forEach(function (doc) {
+          const order = {
+            id: doc.id,
+            ...doc.data()
+          }
+          allOrders.value.push(order)
+        })
       })
     } catch (error) {
       message.value = 'there was an error with getting orders'

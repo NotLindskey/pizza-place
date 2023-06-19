@@ -1,5 +1,5 @@
 import { ref, onMounted } from 'vue'
-import { getDocs, deleteDoc, doc, onSnapshot } from 'firebase/firestore'
+import { deleteDoc, doc, onSnapshot } from 'firebase/firestore'
 import { dbPizzasRef } from '../firebase'
 
 export default function usePizzas() {
