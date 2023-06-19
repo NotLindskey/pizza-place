@@ -3,8 +3,16 @@ import useBasket from '@/composables/useBasket'
 import usePizzas from '../composables/usePizzas'
 
 const { allPizzas } = usePizzas()
-const { basketText, addNewOrder, basket, increaseQuantity, decreaseQuantity, addToBasket, total } =
-  useBasket()
+const {
+  basketText,
+  addNewOrder,
+  basket,
+  increaseQuantity,
+  decreaseQuantity,
+  addToBasket,
+  total,
+  signInMessage
+} = useBasket()
 </script>
 
 <template>
@@ -54,6 +62,7 @@ const { basketText, addNewOrder, basket, increaseQuantity, decreaseQuantity, add
           </tbody>
         </table>
         <p>Order Total: ${{ total }}</p>
+        <p>{{ signInMessage }}</p>
         <button @click="addNewOrder">Place order</button>
       </div>
       <div v-else>
