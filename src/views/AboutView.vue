@@ -1,11 +1,12 @@
 <template>
   <div class="about">
     <section class="intro">
-      <div class="info_text_wrapper"></div>
-      <h3>Quality Pizza for 30 years</h3>
-      <p class="info_text">
-        Nothing but the best of quality ingredients, with a friendly atmosphere.
-      </p>
+      <div class="info_text_wrapper">
+        <h3>Quality Pizza for 30 years</h3>
+        <p class="info_text">
+          Nothing but the best of quality ingredients, with a friendly atmosphere.
+        </p>
+      </div>
       <img
         class="info_img"
         src="../assets/pizza-planet-v3-images-main/images/calzone.jpg"
@@ -25,3 +26,39 @@
     </section>
   </div>
 </template>
+
+<style>
+.about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+}
+
+.info_img,
+.info_text_wrapper {
+  flex: 1;
+  padding: 1rem;
+  text-align: center;
+  align-self: center;
+}
+
+.more_info_wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: #ffeed2;
+  width: 100vw;
+  padding: 1rem;
+}
+
+@media (min-width: 900px) {
+  .intro {
+    flex-direction: row;
+  }
+}
+</style>
