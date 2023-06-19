@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import useAuth from '@/composables/useAuth'
-const { signUp, errorMessage } = useAuth()
+const { signUp, errorMessage, toggleModal, signInModalOpen } = useAuth()
 const userData = ref({
   email: '',
   password: ''
@@ -9,9 +9,10 @@ const userData = ref({
 </script>
 
 <template>
-  <div class="modal">
+  <button @click="toggleModal" class="sign_in_btn">Sign in</button>
+  <div v-if="signInModalOpen" class="modal">
     <div class="modal_content">
-      <span class="close_modal">&#10060;</span>
+      <span @click="toggleModal" class="close_modal">&#10060;</span>
       <p class="modal_text">Please log in to continue</p>
       <span class="error_message">{{ errorMessage }}</span>
       <form>
@@ -83,6 +84,15 @@ const userData = ref({
 .error_message {
   margin-left: 1rem;
   color: rgb(255, 104, 104);
+}
+
+.sign_in_btn {
+  border: none;
+  align-self: flex-end;
+}
+
+.sign_in_btn:hover {
+  color: rbg(161, 132, 132);
 }
 
 @media (min-width: 900px) {
