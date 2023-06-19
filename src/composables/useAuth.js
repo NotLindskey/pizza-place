@@ -2,13 +2,15 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
+  onAuthStateChanged
 } from 'firebase/auth'
 import { ref } from 'vue'
 export default function useAuth() {
   const auth = getAuth()
   const errorMessage = ref('')
   const signInModalOpen = ref(false)
+  const userData = ref(null)
 
   function toggleModal() {
     signInModalOpen.value = !signInModalOpen.value
@@ -60,5 +62,21 @@ export default function useAuth() {
       errorMessage.value = error.message
     }
   }
-  return { signUp, errorMessage, signInModalOpen, toggleModal, logIn, logOut }
+
+  onAuthStateChanged(auth, function (user) {
+    if (user) {
+      userData.value = user
+    } else {
+      userData.value = null
+    }
+  })
+  return {
+    signUp,
+    errorMessage,
+    signInModalOpen,
+    toggleModal,
+    logIn,
+    logOut,
+    userData
+  }
 }

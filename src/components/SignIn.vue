@@ -1,16 +1,16 @@
 <script setup>
 import { ref } from 'vue'
 import useAuth from '@/composables/useAuth'
-const { signUp, errorMessage, toggleModal, signInModalOpen, logIn, logOut } = useAuth()
-const userData = ref({
+const { signUp, errorMessage, toggleModal, signInModalOpen, logIn, logOut, userData } = useAuth()
+const formData = ref({
   email: '',
   password: ''
 })
 </script>
 
 <template>
-  <button @click="toggleModal" class="sign_in_btn">Sign in</button>
-  <button @click="logOut" class="sign_in_btn">Sign out</button>
+  <button v-if="!userData" @click="toggleModal" class="sign_in_btn">Sign in</button>
+  <button v-else @click="logOut" class="sign_in_btn">Sign out</button>
   <div v-if="signInModalOpen" class="modal">
     <div class="modal_content">
       <span @click="toggleModal" class="close_modal">&#10060;</span>
@@ -19,7 +19,7 @@ const userData = ref({
       <form>
         <div class="form_group">
           <label for="email">Email address</label>
-          <input type="email" id="email" placeholder="Enter email" v-model="userData.email" />
+          <input type="email" id="email" placeholder="Enter email" v-model="formData.email" />
         </div>
         <div class="form_group">
           <label for="password">Password</label>
@@ -27,13 +27,13 @@ const userData = ref({
             type="password"
             id="password"
             placeholder="Enter password"
-            v-model="userData.password"
+            v-model="formData.password"
           />
         </div>
-        <button @click.prevent="logIn(userData.email, userData.password)" type="button">
+        <button @click.prevent="logIn(formData.email, formData.password)" type="button">
           Sign in
         </button>
-        <button @click.prevent="signUp(userData.email, userData.password)" type="button">
+        <button @click.prevent="signUp(formData.email, formData.password)" type="button">
           Sign up
         </button>
       </form>
