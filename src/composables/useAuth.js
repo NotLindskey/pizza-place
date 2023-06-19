@@ -6,13 +6,26 @@ import {
   onAuthStateChanged
 } from 'firebase/auth'
 import { ref } from 'vue'
-import { doc, setDoc } from 'firebase/firestore'
-import { db } from '../firebase'
+import { doc, setDoc, getDoc } from 'firebase/firestore'
+import { db, dbUsersRef } from '../firebase'
 export default function useAuth() {
   const auth = getAuth()
   const errorMessage = ref('')
   const signInModalOpen = ref(false)
   const userData = ref(null)
+  const userIsAdmin = ref(false)
+
+  async function checkAdminRole() {
+    if (userData.value?.uid) {
+      doc(dbUsersRef, userData.value.uid)
+      const user = await getDoc(docRef)
+      if (user.exist() && user.data().isAdmin) {
+        userIsAdmin.value = true
+      } else {
+        userIsAdmin.value = false
+      }
+    }
+  }
 
   function toggleModal() {
     signInModalOpen.value = !signInModalOpen.value
@@ -76,8 +89,10 @@ export default function useAuth() {
   onAuthStateChanged(auth, function (user) {
     if (user) {
       userData.value = user
+      checkAdminRole()
     } else {
       userData.value = null
+      userIsAdmin.value = false
     }
   })
   return {
@@ -87,6 +102,7 @@ export default function useAuth() {
     toggleModal,
     logIn,
     logOut,
-    userData
+    userData,
+    userIsAdmin
   }
 }
